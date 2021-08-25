@@ -1,0 +1,5 @@
+<p>ID: {{ selectedHero?.id }}</p>
+<label>Name:</label>
+<input type="text" *ngIf="selectedHero" [(ngModel)]="selectedHero.name" />
+<button (click)="updateHero()">Save</button>
+<br />

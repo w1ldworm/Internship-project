@@ -1,0 +1,5 @@
+<div class="hero-wrapper">
+    <div class="hero-card" *ngFor="let hero of heroList" (click)="showHeroDetail(hero)">
+        {{ hero.name }}
+    </div>
+</div>
