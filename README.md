@@ -1,4 +1,5 @@
-# MyFirstApp
+# Internship Project
+This is a sample project for internship course. Codes may change by the time and each example would be overwritten on previous one. Use code history to access other examples.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.2.
 
