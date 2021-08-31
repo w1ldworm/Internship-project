@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { TopHerosComponent } from './components/top-heros/top-heros.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import { HeroDetailComponent } from './components/hero-detail/hero-detail.compon
     DashboardComponent,
     HeroListComponent,
     TopHerosComponent,
-    HeroDetailComponent
+    HeroDetailComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

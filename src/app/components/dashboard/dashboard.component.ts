@@ -1,66 +1,53 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Hero, HeroList } from 'src/app/models/hero.model';
+import { User } from 'src/app/models/user.model';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnChanges {
-  @Input('heros') heroList: HeroList | undefined;
+export class DashboardComponent implements OnInit {
 
-  canViewTopHeros: boolean = false;
-  canViewHeroList: boolean = false;
-  canViewHeroDetail: boolean = false;
-  topHeros: Hero[] | undefined;
-  selectedHero: Hero | undefined;
+  pageSize: number = 6;
+  pageNumber: number = 1;
+  totalUsers: number = 0;
+  userList: User[] = []
 
-  constructor() { 
-    console.log('Dashboard constructor.');
-  }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   ngOnInit(): void {
-    console.log('Dashboard Init');
-    console.log('Init Heros: ', this.heroList);
-    this.showDashboard();
+
   }
 
-  ngOnChanges(): void {
-    console.log('Dashboard Change');
-    console.log('Change Heros: ', this.heroList);
-    this.topHeros = this.heroList?.results.slice(0,4);
-  }
-
-  showDashboard(): void {
-    this.canViewHeroDetail = false;
-    this.canViewHeroList = false;
-    this.canViewTopHeros = true;
-  }
-  
-  showHeroList(): void {
-    this.canViewHeroDetail = false;
-    this.canViewHeroList = true;
-    this.canViewTopHeros = false;
-  }
-  
-  showHeroDetail(): void {
-    this.canViewHeroDetail = true;
-    this.canViewHeroList = false;
-    this.canViewTopHeros = false;
-  }
-
-  onHeroClick(hero: Hero) {
-    this.showHeroDetail();
-    this.selectedHero = {...hero};
-  }
-
-  onHeroUpdate(hero: Hero) {
-    const selected = this.heroList?.results.find(item => item.id == hero.id);
-    if(selected) {
-      selected.name = hero.name;
-    } else {
-      alert('Hero NOT FOUND!!!!')
+  getUserList(reset: boolean = false): void {
+    if (reset) {
+      this.pageNumber = 1;
     }
-    this.showDashboard();
+
+    const filter = {
+      page: this.pageNumber,
+      per_page: this.pageSize
+    }
+
+    this.apiService.getUserList(filter).subscribe(
+      response => {
+        this.totalUsers = response.total;
+        this.userList = response.data;
+      }
+    )
+  }
+
+  createPageArray() {
+    const pages: number = Math.ceil(this.totalUsers / this.pageSize)
+    return Array(pages).fill(1).map((x,i) => i + 1);
+  }
+
+  getPageContent(page: number) {
+    this.pageNumber = page;
+    this.getUserList();
   }
 }

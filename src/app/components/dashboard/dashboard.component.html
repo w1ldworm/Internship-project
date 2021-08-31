@@ -1,12 +1,8 @@
-<button (click)="showDashboard()">Dashboard</button>
-<button (click)="showHeroList()">Hero List</button>
-<br />
-<div *ngIf="canViewTopHeros">
-    <app-top-heros [heros]="topHeros" (detailClick)="onHeroClick($event)"></app-top-heros>
-</div>
-<div *ngIf="canViewHeroList">
-    <app-hero-list></app-hero-list>
-</div>
-<div *ngIf="canViewHeroDetail">
-    <app-hero-detail [hero]="selectedHero" (updateHero)="onHeroUpdate($event)"></app-hero-detail>
+<input [(ngModel)]="pageSize" placeholder="Number of users"/>
+<button (click)="getUserList(true)">Get users</button>
+
+<app-user *ngFor="let user of userList" [user]="user"></app-user>
+
+<div *ngIf="userList.length > 0" class="pagination-wrapper">
+    Pages: <button *ngFor="let page of createPageArray()" (click)="getPageContent(page)" [disabled]="page == pageNumber">{{ page }}</button>
 </div>
