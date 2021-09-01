@@ -1,5 +1,11 @@
+<div>
+    <input [(ngModel)]="token" placeholder="User token"/>
+    <button (click)="saveToken()">Submit</button>
+</div>
+
 <input [(ngModel)]="pageSize" placeholder="Number of users"/>
 <button (click)="getUserList(true)">Get users</button>
+<button (click)="loginUser()">Login</button>
 
 <app-user *ngFor="let user of userList" [user]="user"></app-user>
 

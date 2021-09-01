@@ -14,9 +14,10 @@ export class DashboardComponent implements OnInit {
   pageNumber: number = 1;
   totalUsers: number = 0;
   userList: User[] = []
+  token: string = '';
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
 
     this.apiService.getUserList(filter).subscribe(
       response => {
+        console.log(response.page)
         this.totalUsers = response.total;
         this.userList = response.data;
       }
@@ -49,5 +51,20 @@ export class DashboardComponent implements OnInit {
   getPageContent(page: number) {
     this.pageNumber = page;
     this.getUserList();
+  }
+  
+  loginUser() {
+    this.apiService.loginUser({
+      "email": "eve.holts@reqres.in",
+      "password": "cityslicka"
+  }).subscribe(
+      response => {
+        console.log('Component: ', response)
+      }
+    )  
+  }
+
+  saveToken() {
+    localStorage.setItem('auth', this.token);
   }
 }
