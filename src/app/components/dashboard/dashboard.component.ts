@@ -1,7 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Hero, HeroList } from 'src/app/models/hero.model';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/services/api.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +16,49 @@ export class DashboardComponent implements OnInit {
   pageNumber: number = 1;
   totalUsers: number = 0;
   userList: User[] = []
-  token: string = '';
+
+  tokenForm: FormGroup = new FormGroup({});
+  step1Form: FormGroup = new FormGroup({});
+  step2Form: FormGroup = new FormGroup({});
+
+  currentStep: number = 1;
 
   constructor(
     private apiService: ApiService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    this.initForms();
+  }
+
+  initForms():void {
+    this.tokenForm = new FormGroup({
+      token: new FormControl('', [Validators.required])
+    });
+
+    this.step1Form = new FormGroup({
+      mobile: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(11), 
+        Validators.maxLength(11)
+      ]),
+      device_id: new FormControl('Desktop', [Validators.required]),
+      device_model: new FormControl('Safari'),
+      device_os: new FormControl('Angular')
+    });
+    
+    this.step2Form = new FormGroup({
+      mobile: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(11), 
+        Validators.maxLength(11)
+      ]),
+      device_id: new FormControl('Desktop', [Validators.required]),
+      verification_code: new FormControl('', Validators.required),
+      nickname: new FormControl('')
+    });
+
 
   }
 
@@ -65,6 +103,41 @@ export class DashboardComponent implements OnInit {
   }
 
   saveToken() {
-    localStorage.setItem('auth', this.token);
+    localStorage.setItem('auth', this.tokenForm.value.token);
+    this.getUserList();
   }
+
+  getVerificationCode() {
+    this.apiService.getVerificationCode(this.step1Form.value).subscribe(
+      () => {
+        this.currentStep = 2;
+        this.step2Form.get('mobile')?.patchValue(this.step1Form.value.mobile);
+      },
+      error => {
+        this.currentStep = 1;
+      }
+    )
+  }
+
+  getToken() {
+    this.apiService.getTokenWithCode(this.step2Form.value).subscribe(
+      data => {
+        this.currentStep = -1;
+        this.localStorageService.token = data.token;
+        this.getProfileInfo();
+      },
+      error => {
+
+      }
+    )
+  }
+
+  getProfileInfo() {
+    this.apiService.getUserProfile().subscribe(
+      data => {
+        console.log(data);
+      }
+    )
+  }
+
 }

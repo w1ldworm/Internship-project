@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  baseUrl: 'https://reqres.in'
+  baseUrl: 'https://api.vasapi.click',
+  storeID: 7
 };

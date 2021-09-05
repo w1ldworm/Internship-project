@@ -6,6 +6,7 @@ import { UserList } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 const baseUrl: string = environment.baseUrl;
+const storeID: number = environment.storeID;
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,17 @@ export class ApiService {
 
   loginUser(data:any): Observable<any> {
     return this.httpClient.post(`${baseUrl}/api/login`, data);
+  }
+
+  getVerificationCode(data: any): Observable<any> {
+    return this.httpClient.post(`${baseUrl}/mobile_login_step1/${storeID}`, data);
+  }
+
+  getTokenWithCode(data: any): Observable<any> {
+    return this.httpClient.post(`${baseUrl}/mobile_login_step2/${storeID}`, data);
+  }
+
+  getUserProfile(): Observable<any> {
+    return this.httpClient.get(`${baseUrl}/profile`)
   }
 }

@@ -1,7 +1,29 @@
-<div>
-    <input [(ngModel)]="token" placeholder="User token"/>
-    <button (click)="saveToken()">Submit</button>
+<div *ngIf="currentStep < 0">
+    Welcome dear user!
 </div>
+<div *ngIf="currentStep == 1">
+    <form [formGroup]="step1Form" (ngSubmit)="getVerificationCode()" >
+        <input type="tel" formControlName="mobile" placeholder="Phone number"/>
+        <button type="submit" [disabled]="step1Form.invalid">Submit</button>
+    </form>
+</div>
+<div *ngIf="currentStep == 2">
+    <form [formGroup]="step2Form" (ngSubmit)="getToken()">
+        <input type="number" formControlName="verification_code" placeholder="Verification code"/>
+        <button type="submit" [disabled]="step2Form.invalid">Submit</button>
+    </form>
+</div>
+
+
+
+<hr />
+<hr />
+<hr />
+<hr />
+<form [formGroup]="tokenForm" (ngSubmit)="saveToken()">
+    <input formControlName="token" placeholder="User token"/>
+    <button [disabled]="tokenForm.invalid">Submit</button>
+</form>
 
 <input [(ngModel)]="pageSize" placeholder="Number of users"/>
 <button (click)="getUserList(true)">Get users</button>
@@ -12,3 +34,4 @@
 <div *ngIf="userList.length > 0" class="pagination-wrapper">
     Pages: <button *ngFor="let page of createPageArray()" (click)="getPageContent(page)" [disabled]="page == pageNumber">{{ page }}</button>
 </div>
+
