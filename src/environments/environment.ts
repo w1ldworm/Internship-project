@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  baseUrl: 'https://api.vasapi.click',
-  storeID: 7
+  baseUrl: 'https://apitwo.digitoon.ir',
+  storeID: 8
 };

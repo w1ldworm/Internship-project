@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://reqres.in'
+  baseUrl: 'https://reqres.in',
+  storeID: 7
 };

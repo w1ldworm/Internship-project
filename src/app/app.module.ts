@@ -12,6 +12,7 @@ import { TopHerosComponent } from './components/top-heros/top-heros.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
 import { UserComponent } from './components/user/user.component';
 import { HttpInterceptorService } from './http-interceptor.service';
+import { Page404Component } from './components/page404/page404.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpInterceptorService } from './http-interceptor.service';
     HeroListComponent,
     TopHerosComponent,
     HeroDetailComponent,
-    UserComponent
+    UserComponent,
+    Page404Component
   ],
   imports: [
     BrowserModule,

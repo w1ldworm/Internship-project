@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit {
   }
 
   saveToken() {
-    localStorage.setItem('auth', this.tokenForm.value.token);
+    localStorage.setItem('token', this.tokenForm.value.token);
     this.getUserList();
   }
 

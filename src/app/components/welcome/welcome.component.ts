@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeroList } from 'src/app/models/hero.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -9,8 +10,21 @@ import { HeroList } from 'src/app/models/hero.model';
 export class WelcomeComponent implements OnInit {
   heroList: HeroList | undefined;
 
-  constructor() {
+  constructor(
+    private activatedRoute: ActivatedRoute
+  ) {
     console.log('Welcome constructor.');
+    this.activatedRoute.data.subscribe(
+      info => {
+        console.log('Router Data:', info)
+      }
+    )
+
+    this.activatedRoute.queryParams.subscribe(
+      query_params => {
+        console.log('Router Queryparams:', query_params)
+      }
+    )
   }
 
   ngOnInit(): void {
