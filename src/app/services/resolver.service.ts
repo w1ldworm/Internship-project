@@ -7,8 +7,6 @@ import { ApiService } from './api.service';
 })
 export class ResolverService implements Resolve<Promise<any>>{
 
-  public profileInfo: any;
-
   constructor(
     private apiService: ApiService
   ) { }
@@ -20,7 +18,6 @@ export class ResolverService implements Resolve<Promise<any>>{
         console.log('State:', state)
         this.apiService.getUserProfile().subscribe(
           data => {
-            this.profileInfo = data;
             resolve(data)
           },
           error => {
