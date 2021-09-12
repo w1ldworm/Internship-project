@@ -139,5 +139,8 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
-
+  clickOnDiv() {
+    console.log(('Div clicked'));
+  }
+  
 }
